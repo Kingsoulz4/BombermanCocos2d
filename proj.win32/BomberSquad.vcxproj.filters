@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\battle">
+      <UniqueIdentifier>{d692a54d-73c1-457f-b8ac-14aee698c69c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\characters">
+      <UniqueIdentifier>{3cd9617d-09c5-4f21-b779-01a835acc367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\characters\player">
+      <UniqueIdentifier>{8afebe7c-56b1-4670-bbe0-d6f4b582c203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\characters\enemy">
+      <UniqueIdentifier>{bfecc5f4-bfab-4341-b284-e4e6a9bd094c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\items">
+      <UniqueIdentifier>{cf6efb32-19e7-4158-98a3-9da251665114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\inventories">
+      <UniqueIdentifier>{3d165d55-ea85-47bb-8de2-33ff31c3a574}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\weapons">
+      <UniqueIdentifier>{bb8b45ae-7351-40d5-9c19-9d93a1f8bfe4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BattleScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\battle\LayerWidget.cpp">
+      <Filter>src\battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\player\Bomber.cpp">
+      <Filter>src\characters\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\Enemy.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\Ballom.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\Boyon.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\Buroru.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\Bake.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\items\NewWeapon.cpp">
+      <Filter>src\items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\items\Port.cpp">
+      <Filter>src\items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\items\PowerupBomb.cpp">
+      <Filter>src\items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\items\PowerupFlame.cpp">
+      <Filter>src\items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\items\Item.cpp">
+      <Filter>src\items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\inventory\Inventory.cpp">
+      <Filter>src\inventories</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\inventory\Luckywheel.cpp">
+      <Filter>src\inventories</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\inventory\ShieldVest.cpp">
+      <Filter>src\inventories</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\inventory\BrickPass.cpp">
+      <Filter>src\inventories</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\inventory\Currency.cpp">
+      <Filter>src\inventories</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\inventory\ExtraLife.cpp">
+      <Filter>src\inventories</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\weapons\Mine.cpp">
+      <Filter>src\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\weapons\Sword.cpp">
+      <Filter>src\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\weapons\Bomb.cpp">
+      <Filter>src\weapons</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BattleScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\battle\LayerWidget.h">
+      <Filter>src\battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\player\Bomber.h">
+      <Filter>src\characters\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\enemy\Enemy.h">
+      <Filter>src\characters\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\enemy\Bake.h">
+      <Filter>src\characters\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\enemy\Ballom.h">
+      <Filter>src\characters\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\enemy\Boyon.h">
+      <Filter>src\characters\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\enemy\Buroru.h">
+      <Filter>src\characters\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\items\NewWeapon.h">
+      <Filter>src\items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\items\Port.h">
+      <Filter>src\items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\items\PowerupBomb.h">
+      <Filter>src\items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\items\PowerupFlame.h">
+      <Filter>src\items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\items\Item.h">
+      <Filter>src\items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\inventory\ExtraLife.h">
+      <Filter>src\inventories</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\inventory\Inventory.h">
+      <Filter>src\inventories</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\inventory\Luckywheel.h">
+      <Filter>src\inventories</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\inventory\ShieldVest.h">
+      <Filter>src\inventories</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\inventory\BrickPass.h">
+      <Filter>src\inventories</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\inventory\Currency.h">
+      <Filter>src\inventories</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\weapons\Bomb.h">
+      <Filter>src\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\weapons\Mine.h">
+      <Filter>src\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\weapons\Sword.h">
+      <Filter>src\weapons</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

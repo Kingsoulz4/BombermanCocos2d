@@ -7,6 +7,7 @@
 #include "characters/player/Bomber.h"
 #include <vector>
 #include "Definition.h"
+#include "characters/enemy/LowGian.h"
 
 
 USING_NS_CC;
@@ -25,8 +26,9 @@ public:
 	CREATE_FUNC(BattleScene);
 	void setBomber(Bomber *bomber);
 	Bomber* getBomber();
-	
-
+	void spawnWall();
+	void update(float dt);
+	void changeEnemyDirection();
 
 private:
 	CCTMXTiledMap *tileMap;

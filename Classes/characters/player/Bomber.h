@@ -19,11 +19,13 @@ public:
 	void walkEast();
 	void walkWest();
 	int getMoveDirection();
+	void useWeapon();
 
 private:
 	float velocity = 10.f;
 	float dtMove = 0.15f;
 	int nMovePerUnit = 5;
 	int moveDirection; 
+	int currentWeapon;
 };
 

@@ -5,3 +5,5 @@
 #define MOVE_EAST 12
 #define MOVE_SOUTH 13
 #define MOVE_WEST 14
+#define TILE_SPACE 110
+#define ENEMY_CHANGEDIRECTION_TAG 201

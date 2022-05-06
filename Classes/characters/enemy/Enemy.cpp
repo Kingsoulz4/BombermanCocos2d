@@ -1,14 +1,18 @@
-#include "cocos2d.h"
-USING_NS_CC;
-class Enemy : public Sprite
+#include "Enemy.h"
+
+Enemy::Enemy()
 {
-public:
-	Enemy();
-	~Enemy ();
-	virtual void move();
+}
 
-private:
+Enemy::~Enemy()
+{
+}
 
-};
+//void Enemy::move()
+//{
+//}
 
-
+void Enemy::setMoveDirection(int direction)
+{
+	moveDirection = direction;
+}

@@ -170,3 +170,7 @@ int Bomber::getMoveDirection()
 {
 	return this->moveDirection;
 }
+
+void Bomber::useWeapon()
+{
+}

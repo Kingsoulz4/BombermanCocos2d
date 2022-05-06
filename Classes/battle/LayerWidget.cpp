@@ -22,6 +22,8 @@ bool LayerWidget::init()
 	this->addChild(mainMenu);
 	mainMenu->setContentSize(this->getContentSize());*/
 
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
 	joyStick = Sprite::create("Controllers/JoyStick.png");
 	joyStick->setPosition(Point(joyStick->getContentSize().width*2, joyStick->getContentSize().height*2));
 	this->addChild(joyStick, 1);
@@ -45,6 +47,12 @@ bool LayerWidget::init()
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
+
+	//add Controll button
+	auto btnUseWeapon = ui::Button::create("Controllers/btnUseWeapon.png");
+	btnUseWeapon->setPosition(Point(visibleSize.width-5*btnUseWeapon->getContentSize().width,  5*btnUseWeapon->getContentSize().height));
+	this->addChild(btnUseWeapon);
+	btnUseWeapon->setScale(3);
 	
 	return true;
 }

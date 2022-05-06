@@ -34,6 +34,8 @@ bool LayerWidget::init()
 	this->addChild(joyStickThumbnail);
 
 	auto touchListener = EventListenerTouchOneByOne::create();
+	auto touch = EventListenerTouchAllAtOnce::create();
+	
 	//touchListener->setSwallowTouches(true);
 	touchListener->onTouchBegan = CC_CALLBACK_2(LayerWidget::onTouchBegan, this);
 	touchListener->onTouchMoved = CC_CALLBACK_2(LayerWidget::onTouchMoved, this);

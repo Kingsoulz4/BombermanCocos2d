@@ -6,16 +6,17 @@
 #include "ui/CocosGUI.h"
 #include "characters/player/Bomber.h"
 #include <vector>
+#include "Definition.h"
 
 
 USING_NS_CC;
 
-class BattleScene : public cocos2d::Scene
+class BattleScene : public cocos2d::Layer
 {
 public:
 
 	virtual bool init();
-
+	static Scene* createScene();
 	virtual bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
 	virtual void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event);
 	virtual void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
@@ -24,6 +25,7 @@ public:
 	CREATE_FUNC(BattleScene);
 	void setBomber(Bomber *bomber);
 	Bomber* getBomber();
+	
 
 
 private:
@@ -32,6 +34,8 @@ private:
 	Bomber *player;
 	CCTMXLayer *meta;
 	CCPoint tileCoordForPosition(CCPoint position);
+	void setPhysicsWorld(PhysicsWorld* physicsWorld);
+	PhysicsWorld* scenePhysicsWorld;
 };
 
 #endif // __GAME_SCENE_H__

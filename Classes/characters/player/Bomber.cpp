@@ -55,6 +55,7 @@ void Bomber::move(float cosA, float sinA)
 void Bomber::walkSouth()
 {
 	//this->stopAllActions();
+	moveDirection = MOVE_SOUTH;
 	auto walkSouthAnimation = Animation::create();
 	walkSouthAnimation->setDelayPerUnit(dtMove);
 	walkSouthAnimation->setLoops(1);
@@ -82,15 +83,15 @@ void Bomber::walkNorth()
 {
 	
 
-
+	moveDirection = MOVE_NORTH;
 	//this->stopAllActions();
 	auto walkNorthAnimation = Animation::create();
 	walkNorthAnimation->setDelayPerUnit(dtMove);
 	walkNorthAnimation->setLoops(1);
-	walkNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Player/BomberWalkDown1.png")->getSpriteFrame());
-	walkNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Player/BomberWalkDown2.png")->getSpriteFrame());
-	walkNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Player/BomberWalkDown3.png")->getSpriteFrame());
-	walkNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Player/BomberWalkDown4.png")->getSpriteFrame());
+	walkNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Player/BomberWalkNorth1.png")->getSpriteFrame());
+	walkNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Player/BomberWalkNorth2.png")->getSpriteFrame());
+	walkNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Player/BomberWalkNorth3.png")->getSpriteFrame());
+	walkNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Player/BomberWalkNorth4.png")->getSpriteFrame());
 	auto walkNorthAnimate = Animate::create(walkNorthAnimation);
 	auto bomberWalkNorth = MoveBy::create(dtMove, Vec2(0, velocity ));
 	bomberWalkNorth->setTag(22);
@@ -110,7 +111,7 @@ void Bomber::walkNorth()
 void Bomber::walkEast()
 {
 
-
+	moveDirection = MOVE_EAST;
 	//this->stopAllActions();
 	auto walkEastAnimation = Animation::create();
 	walkEastAnimation->setDelayPerUnit(dtMove);
@@ -140,6 +141,7 @@ void Bomber::walkWest()
 {
 
 	//this->stopAllActions();
+	moveDirection = MOVE_WEST;
 	auto walkWestAnimation = Animation::create();
 	walkWestAnimation->setDelayPerUnit(dtMove);
 	walkWestAnimation->setLoops(1);
@@ -162,4 +164,9 @@ void Bomber::walkWest()
 	{
 		this->runAction(bomberWalkWest);
 	}
+}
+
+int Bomber::getMoveDirection()
+{
+	return this->moveDirection;
 }

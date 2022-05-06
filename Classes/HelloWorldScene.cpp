@@ -55,9 +55,11 @@ bool HelloWorld::init()
 
 
 	auto switchToBattle = EventListenerTouchOneByOne::create();
+    
 	switchToBattle->onTouchBegan = [=](Touch* touch, Event* event)
 	{
-		Director::getInstance()->replaceScene(BattleScene::create());
+        
+		Director::getInstance()->replaceScene(BattleScene::createScene());
 		return true;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(switchToBattle, this);

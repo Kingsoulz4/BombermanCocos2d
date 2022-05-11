@@ -135,3 +135,15 @@ void LowGian::changeDirection()
 	moveDirection = t;
 
 }
+
+LowGian* LowGian::create()
+{
+	auto ret = new (std::nothrow) LowGian;
+	if (ret && ret->initWithFile("Sprites/Enemies/LowGianMoveHorizontally1.png")) {
+		ret->autorelease();
+
+		return ret;
+	}
+	CC_SAFE_RELEASE(ret);
+	return nullptr;
+}

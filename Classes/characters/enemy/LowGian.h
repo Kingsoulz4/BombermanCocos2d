@@ -11,12 +11,13 @@ public:
 	LowGian();
 	~LowGian();
 
-	void move();
+	void move() override;
 	void moveNorth();
 	void moveEast();
 	void moveSouth();
 	void moveWest();
 	void changeDirection();
+	static LowGian* create();
 private:
 	
 };

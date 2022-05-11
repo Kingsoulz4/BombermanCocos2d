@@ -8,7 +8,8 @@ class Enemy : public Sprite
 public:
 	Enemy();
 	~Enemy();
-	//virtual void move();
+	virtual void move();
+
 	void setMoveDirection(int direction);
 
 private:

@@ -3,6 +3,8 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 #include <math.h>
+#include "weapons/Bomb.h"
+#include "weapons/Flames.h"
 #include "characters/player/Bomber.h"
 
 USING_NS_CC;
@@ -27,11 +29,13 @@ public:
 	virtual void onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *event);
 
 	double distanceRadiusJoyStick(Point destination);
+	void update(float dt);
 
 
 private:
 	Sprite* joyStick;
 	Sprite* joyStickThumbnail;
 	Bomber* playerUnderControl;
+	std::vector<Bomb*> bombPlaced;
 };
 

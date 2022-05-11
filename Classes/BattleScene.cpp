@@ -1,7 +1,6 @@
 #include "BattleScene.h"
 #include "battle/LayerWidget.h"
 
-LowGian* lowGian;
 
 bool BattleScene::init()
 {
@@ -9,8 +8,6 @@ bool BattleScene::init()
 	{
 		return false;
 	}
-
-
 
 
 	//this->setPhysicsWorld(this->getPhysicsWorld());
@@ -55,7 +52,7 @@ bool BattleScene::init()
 	this->addChild(player);
 
 	//Add enemy
-	lowGian = (LowGian*)LowGian::create("Sprites/Enemies/LowGianMoveHorizontally1.png");
+	lowGian = (LowGian*)LowGian::create();
 	lowGian->setPosition(Point(visibleSize.width / 2-50, visibleSize.height / 2-100));
 	lowGian->setMoveDirection(MOVE_NORTH);
 	this->addChild(lowGian);

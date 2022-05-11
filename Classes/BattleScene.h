@@ -10,6 +10,8 @@
 #include "characters/enemy/LowGian.h"
 
 
+
+
 USING_NS_CC;
 
 class BattleScene : public cocos2d::Layer
@@ -29,6 +31,7 @@ public:
 	void spawnWall();
 	void update(float dt);
 	void changeEnemyDirection();
+	LowGian* lowGian = nullptr;
 
 private:
 	CCTMXTiledMap *tileMap;
@@ -38,6 +41,7 @@ private:
 	CCPoint tileCoordForPosition(CCPoint position);
 	void setPhysicsWorld(PhysicsWorld* physicsWorld);
 	PhysicsWorld* scenePhysicsWorld;
+	
 };
 
 #endif // __GAME_SCENE_H__

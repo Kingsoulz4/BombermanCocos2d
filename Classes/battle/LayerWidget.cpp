@@ -1,5 +1,6 @@
 #include "LayerWidget.h"
 
+
 Point joyStickDefaultPosition;
 
 LayerWidget::LayerWidget()
@@ -36,8 +37,8 @@ bool LayerWidget::init()
 	this->addChild(joyStickThumbnail);
 
 	auto touchListener = EventListenerTouchOneByOne::create();
-	auto touch = EventListenerTouchAllAtOnce::create();
-	
+	//auto touchListener = EventListenerTouchAllAtOnce::create();
+	//touchListener->
 	//touchListener->setSwallowTouches(true);
 	touchListener->onTouchBegan = CC_CALLBACK_2(LayerWidget::onTouchBegan, this);
 	touchListener->onTouchMoved = CC_CALLBACK_2(LayerWidget::onTouchMoved, this);
@@ -53,7 +54,16 @@ bool LayerWidget::init()
 	btnUseWeapon->setPosition(Point(visibleSize.width-5*btnUseWeapon->getContentSize().width,  5*btnUseWeapon->getContentSize().height));
 	this->addChild(btnUseWeapon);
 	btnUseWeapon->setScale(3);
-	
+	btnUseWeapon->addClickEventListener([=](Ref*) {
+		auto bomb = Bomb::create();
+		bomb->setTag(BOMB_COLLISION_BITMASK);
+		this->addChild(bomb);
+		bomb->setPosition(Point(playerUnderControl->getPositionX(), playerUnderControl->getPositionY()));
+		bombPlaced.push_back(bomb);
+	});
+
+	//Update
+	this->scheduleUpdate();
 	return true;
 }
 
@@ -88,13 +98,25 @@ void LayerWidget::onTouchMoved(cocos2d::Touch * touch, cocos2d::Event * event)
 		position.y = radius * sinA + joyStickDefaultPosition.y;
 	}
 	joyStick->setPosition(position);
-	playerUnderControl->move(cosA, sinA);
+	auto delta = DelayTime::create(0.001f);
+	if (getDirection(cosA, sinA) != playerUnderControl->getMoveDirection())
+	{
+		this->stopActionByTag(PLAYER_MOVE_ACTION);
+		auto playerMoveSequence = RepeatForever::create(Sequence::create(delta, CallFunc::create([=] {
+			playerUnderControl->move(cosA, sinA);
+			}), NULL));
+		playerMoveSequence->setTag(PLAYER_MOVE_ACTION);
+		this->runAction(playerMoveSequence);
+	}
+	
+	//playerUnderControl->move(cosA, sinA);
 	
 	
 }
 
 void LayerWidget::onTouchEnded(cocos2d::Touch * touch, cocos2d::Event * event)
 {
+	this->stopActionByTag(PLAYER_MOVE_ACTION);
 	joyStick->setPosition(joyStickDefaultPosition);
 }
 
@@ -108,5 +130,28 @@ double LayerWidget::distanceRadiusJoyStick(Point destination)
 {
 	double dis = sqrt(pow(joyStickDefaultPosition.x - destination.x, 2) + pow(joyStickDefaultPosition.y - destination.y, 2));
 	return dis;
+}
+
+void LayerWidget::update(float dt)
+{
+	//std::vector<Bomb*>::iterator ptr;
+	auto ptr = bombPlaced.begin();
+	while (ptr < bombPlaced.end())
+	{
+		if (( * ptr)->getTimeExplode() <= 0.f)
+		{
+			
+			auto flames = Flames::create();
+			this->addChild(flames);
+			flames->setPosition((*ptr)->getPosition());
+			this->removeChild(*ptr);
+			bombPlaced.erase(ptr);
+			break;
+		}
+		else
+		{
+			ptr++;
+		}
+	}
 }
 

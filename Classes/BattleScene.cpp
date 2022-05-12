@@ -9,6 +9,9 @@ bool BattleScene::init()
 		return false;
 	}
 
+	layerBatlle = Layer::create();
+	this->addChild(layerBatlle);
+	layerBatlle->setZOrder(10);
 
 	//this->setPhysicsWorld(this->getPhysicsWorld());
 
@@ -21,10 +24,13 @@ bool BattleScene::init()
 	tileMap->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	tileMap->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
 	background = tileMap->layerNamed("Background");
-	background->setScale(3);
-	background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	background->setPosition(Point(0, 0));
 	layerObject = tileMap->getLayer("Meta");
+	layerBatlle->setContentSize(tileMap->getContentSize());
+	layerBatlle->setPosition(tileMap->getPosition());
+	//layerBatlle->addChild(background);
+	layerBatlle->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	layerBatlle->setPosition(Point(0, 0));
+	//layerBatlle->addChild(layerObject);
 	//CCLOG("layer size: %f ",layerObject->getLayerSize().width);
 	for (int i = 0; i < layerObject->getLayerSize().height; i++)
 	{
@@ -193,7 +199,8 @@ void BattleScene::update(float dt)
 {
 	//lowGian->moveSouth();
 	
-	background->setPosition(Point(background->getContentSize().width-player->getPositionX(), background->getContentSize().height - player->getPositionY()));
+	tileMap->setPosition(Point(background->getContentSize().width-player->getPositionX(), background->getContentSize().height - player->getPositionY()));
+	layerBatlle->setPosition(Point(background->getContentSize().width - player->getPositionX(), background->getContentSize().height - player->getPositionY()));
 
 	auto ptr = listEnemy.begin();
 	while (ptr < listEnemy.end())
@@ -303,7 +310,7 @@ void BattleScene::generateEnemies()
 	lowGian->setPosition(enemySpawnPoint);
 	lowGian->setMoveDirection(MOVE_NORTH);
 	listEnemy.push_back(lowGian);
-	->addChild(lowGian);
+	layerBatlle->addChild(lowGian);
 }
 
 CCPoint BattleScene::tileCoordForPosition(CCPoint position)

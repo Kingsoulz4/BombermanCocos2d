@@ -37,7 +37,7 @@ public:
 	void changeEnemyDirection();
 	void generateEnemies();
 	
-	
+	Layer* layerBatlle;
 
 	LowGian* lowGian = nullptr;
 

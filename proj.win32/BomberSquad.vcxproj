@@ -14,7 +14,7 @@
     <ProjectGuid>{76A39BB2-9B84-4C65-98A5-654D86B86F2A}</ProjectGuid>
     <RootNamespace>test_win32</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -27,6 +27,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v141_xp</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -37,6 +38,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v141_xp</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -157,7 +159,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\characters\enemy\Boyon.cpp" />
     <ClCompile Include="..\Classes\characters\enemy\Buroru.cpp" />
     <ClCompile Include="..\Classes\characters\enemy\Enemy.cpp" />
+    <ClCompile Include="..\Classes\characters\enemy\LowGian.cpp" />
+    <ClCompile Include="..\Classes\characters\enemy\TopGian.cpp" />
     <ClCompile Include="..\Classes\characters\player\Bomber.cpp" />
+    <ClCompile Include="..\Classes\Definition.cpp" />
+    <ClCompile Include="..\Classes\GameController.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\inventory\BrickPass.cpp" />
     <ClCompile Include="..\Classes\inventory\Currency.cpp" />
@@ -170,7 +176,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\items\Port.cpp" />
     <ClCompile Include="..\Classes\items\PowerupBomb.cpp" />
     <ClCompile Include="..\Classes\items\PowerupFlame.cpp" />
+    <ClCompile Include="..\Classes\levels\level.cpp" />
+    <ClCompile Include="..\Classes\levels\Level1.cpp" />
     <ClCompile Include="..\Classes\weapons\Bomb.cpp" />
+    <ClCompile Include="..\Classes\weapons\Flames.cpp" />
     <ClCompile Include="..\Classes\weapons\Mine.cpp" />
     <ClCompile Include="..\Classes\weapons\Sword.cpp" />
     <ClCompile Include="main.cpp" />
@@ -184,7 +193,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\characters\enemy\Boyon.h" />
     <ClInclude Include="..\Classes\characters\enemy\Buroru.h" />
     <ClInclude Include="..\Classes\characters\enemy\Enemy.h" />
+    <ClInclude Include="..\Classes\characters\enemy\LowGian.h" />
     <ClInclude Include="..\Classes\characters\player\Bomber.h" />
+    <ClInclude Include="..\Classes\Definition.h" />
+    <ClInclude Include="..\Classes\GameController.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\inventory\BrickPass.h" />
     <ClInclude Include="..\Classes\inventory\Currency.h" />
@@ -197,7 +209,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\items\Port.h" />
     <ClInclude Include="..\Classes\items\PowerupBomb.h" />
     <ClInclude Include="..\Classes\items\PowerupFlame.h" />
+    <ClInclude Include="..\Classes\levels\level.h" />
+    <ClInclude Include="..\Classes\levels\Level1.h" />
     <ClInclude Include="..\Classes\weapons\Bomb.h" />
+    <ClInclude Include="..\Classes\weapons\Flames.h" />
     <ClInclude Include="..\Classes\weapons\Mine.h" />
     <ClInclude Include="..\Classes\weapons\Sword.h" />
     <ClInclude Include="main.h" />

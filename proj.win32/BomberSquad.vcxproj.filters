@@ -31,6 +31,9 @@
     <Filter Include="src\weapons">
       <UniqueIdentifier>{bb8b45ae-7351-40d5-9c19-9d93a1f8bfe4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\levels">
+      <UniqueIdentifier>{1fe42b94-ea0e-494b-aa00-5368b408bd03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,6 +111,27 @@
     <ClCompile Include="..\Classes\weapons\Bomb.cpp">
       <Filter>src\weapons</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\levels\Level1.cpp">
+      <Filter>src\levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\levels\level.cpp">
+      <Filter>src\levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\TopGian.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\LowGian.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Definition.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\weapons\Flames.cpp">
+      <Filter>src\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameController.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -184,6 +208,24 @@
     </ClInclude>
     <ClInclude Include="..\Classes\weapons\Sword.h">
       <Filter>src\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\levels\Level1.h">
+      <Filter>src\levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\levels\level.h">
+      <Filter>src\levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Definition.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\enemy\LowGian.h">
+      <Filter>src\characters\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\weapons\Flames.h">
+      <Filter>src\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameController.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

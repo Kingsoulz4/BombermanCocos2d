@@ -141,7 +141,13 @@ LowGian* LowGian::create()
 	auto ret = new (std::nothrow) LowGian;
 	if (ret && ret->initWithFile("Sprites/Enemies/LowGianMoveHorizontally1.png")) {
 		ret->autorelease();
-
+		auto lowGianPhysicbody = PhysicsBody::createBox(ret->getContentSize());
+		lowGianPhysicbody->setCollisionBitmask(ENEMY_COLLISION_BITMASK);
+		lowGianPhysicbody->setContactTestBitmask(true);
+		lowGianPhysicbody->setGravityEnable(false);
+		lowGianPhysicbody->setDynamic(false);
+		
+		ret->setPhysicsBody(lowGianPhysicbody);
 		return ret;
 	}
 	CC_SAFE_RELEASE(ret);

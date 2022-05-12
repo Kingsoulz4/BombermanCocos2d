@@ -20,3 +20,8 @@ void Enemy::setMoveDirection(int direction)
 {
 	moveDirection = direction;
 }
+
+void Enemy::enemyDead()
+{
+	isDead = true;
+}

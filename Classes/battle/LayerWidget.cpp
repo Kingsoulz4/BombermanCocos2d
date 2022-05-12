@@ -134,7 +134,7 @@ double LayerWidget::distanceRadiusJoyStick(Point destination)
 
 void LayerWidget::update(float dt)
 {
-	//std::vector<Bomb*>::iterator ptr;
+	//update bomb
 	auto ptr = bombPlaced.begin();
 	while (ptr < bombPlaced.end())
 	{
@@ -144,6 +144,7 @@ void LayerWidget::update(float dt)
 			auto flames = Flames::create();
 			this->addChild(flames);
 			flames->setPosition((*ptr)->getPosition());
+			flamesBurning.push_back(flames);
 			this->removeChild(*ptr);
 			bombPlaced.erase(ptr);
 			break;
@@ -153,5 +154,24 @@ void LayerWidget::update(float dt)
 			ptr++;
 		}
 	}
+	//update flames
+		auto flame = flamesBurning.begin();
+		while (flame < flamesBurning.end())
+		{
+			if ((*flame)->getTimeDouse() <= 0.f)
+			{
+				this->removeChild((*flame));
+				flamesBurning.erase(flame);
+				//delete((*flame));
+				break;
+			}
+			else
+			{
+				flame++;
+			}
+		}
+	
+	
+	
 }
 

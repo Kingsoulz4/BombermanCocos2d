@@ -20,7 +20,36 @@ bool BattleScene::init()
 	tileMap->setScale(1.7);
 	tileMap->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	tileMap->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
+	background = tileMap->layerNamed("Background");
+	background->setScale(3);
+	background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	background->setPosition(Point(0, 0));
+	layerObject = tileMap->getLayer("Meta");
+	//CCLOG("layer size: %f ",layerObject->getLayerSize().width);
+	for (int i = 0; i < layerObject->getLayerSize().height; i++)
+	{
+		for (int j = 0; j < layerObject->getLayerSize().width; j++)
+		{
+			
+			auto objID = layerObject->getTileGIDAt(Point(j, i));
+			if (objID != 0)
+			{
+				auto obj = layerObject->getTileAt(Point(j, i));
+				auto _physicsBody = PhysicsBody::createBox(obj->getContentSize());
+				_physicsBody->setCollisionBitmask(WALL_COLLISION_BITMASK);
+				_physicsBody->setGravityEnable(false);
+				_physicsBody->setDynamic(false);
+				_physicsBody->setContactTestBitmask(true);
+				obj->setPhysicsBody(_physicsBody);
+			}
+			
+		}
+	}
+
 	this->addChild(tileMap);
+	
+	
+	
 	//layerTileMap->setPhysicsWor
 
 	//Player
@@ -52,10 +81,9 @@ bool BattleScene::init()
 	this->addChild(player);
 
 	//Add enemy
-	lowGian = (LowGian*)LowGian::create();
-	lowGian->setPosition(Point(visibleSize.width / 2-50, visibleSize.height / 2-100));
-	lowGian->setMoveDirection(MOVE_NORTH);
-	this->addChild(lowGian);
+	enemySpawnPoint = Point(200,300);
+	generateEnemies();
+	
 
 
 	// Add widget layer
@@ -68,11 +96,11 @@ bool BattleScene::init()
 	//meta->setVisible(false);
 
 	//add wall
-	spawnWall();
+	//spawnWall();
 
 	//Collision event 
 	auto collisionListener = EventListenerPhysicsContact::create();
-	collisionListener->onContactBegin = [=](PhysicsContact& contact)
+	/*collisionListener->onContactBegin = [=](PhysicsContact& contact)
 	{
 		CCLOG("Bomber collide");
 		if (player->getMoveDirection() == MOVE_WEST)
@@ -92,7 +120,9 @@ bool BattleScene::init()
 			player->walkNorth();
 		}
 		return true;
-	};
+	};*/
+	collisionListener->onContactBegin = CC_CALLBACK_1(BattleScene::onContactBegin, this);
+	collisionListener->onContactPreSolve = CC_CALLBACK_1(BattleScene::onContactEnter, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(collisionListener,this);
 	//update 
 	this->scheduleUpdate();
@@ -162,33 +192,118 @@ void BattleScene::spawnWall()
 void BattleScene::update(float dt)
 {
 	//lowGian->moveSouth();
-	lowGian->move();
-	lowGian->changeDirection();
-	if (this->getActionByTag(ENEMY_CHANGEDIRECTION_TAG) == nullptr)
+	
+	background->setPosition(Point(background->getContentSize().width-player->getPositionX(), background->getContentSize().height - player->getPositionY()));
+
+	auto ptr = listEnemy.begin();
+	while (ptr < listEnemy.end())
 	{
-		//auto timeToChangeEnemyDirection = DelayTime::create(3.f);
-
-		//
-		////Spawn::create;
-
-		//auto sequence = Sequence::create( timeToChangeEnemyDirection, CallFunc::create([=] {
-		//		lowGian->changeDirection();
-		//		}), NULL);
-		////auto repeat = RepeatForever::create(sequence);
-		//auto spawn = Spawn::createWithTwoActions(CallFunc::create([=] {
-		//	
-		//}), sequence);
-		//spawn->setTag(ENEMY_CHANGEDIRECTION_TAG);
-		//this->runAction(spawn);
-		//this->scheduleOnce(schedule_selector(this->changeEnemyDirection), 3.f);
-		
+		lowGian->move();
+		lowGian->changeDirection();
+		if ((*ptr)->isDead)
+		{
+			this->removeChild((*ptr));
+			listEnemy.erase(ptr);
+			break;
+		}
+		else
+		{
+			ptr++;
+		}
 	}
 	
+	
+}
+
+void BattleScene::gameOver()
+{
+	//CCLOG("Game over");
+}
+
+bool BattleScene::onContactBegin(PhysicsContact& contact)
+{
+	CCLOG("Bomber collide");
+	if (player->getMoveDirection() == MOVE_WEST)
+	{
+		player->walkEast();
+	}
+	if (player->getMoveDirection() == MOVE_EAST)
+	{
+		player->walkWest();
+	}
+	if (player->getMoveDirection() == MOVE_NORTH)
+	{
+		player->walkSouth();
+	}
+	if (player->getMoveDirection() == MOVE_SOUTH)
+	{
+		player->walkNorth();
+	}
+	
+	auto shapeA = contact.getShapeA()->getCollisionBitmask();
+	auto shapeB = contact.getShapeB()->getCollisionBitmask();
+	if ((shapeA == PLAYER_COLLISION_BITMASK && shapeB == ENEMY_COLLISION_BITMASK ) ||(shapeA == ENEMY_COLLISION_BITMASK && shapeB == PLAYER_COLLISION_BITMASK) 
+		|| (shapeA == PLAYER_COLLISION_BITMASK && shapeB == FLAME_COLLISION_BITMASK) || (shapeA == FLAME_COLLISION_BITMASK && shapeB == PLAYER_COLLISION_BITMASK))
+	{
+		gameOver();
+	}
+	if ((shapeA == ENEMY_COLLISION_BITMASK && shapeB == FLAME_COLLISION_BITMASK) || (shapeA == FLAME_COLLISION_BITMASK && shapeB == ENEMY_COLLISION_BITMASK))
+	{
+		CCLOG("Enemy dead");
+		if (shapeA == ENEMY_COLLISION_BITMASK)
+		{
+			auto e = ((Enemy*)contact.getShapeA()->getBody()->getNode());
+			e->enemyDead();
+
+		}
+		if (shapeB == ENEMY_COLLISION_BITMASK)
+		{
+			auto e = ((Enemy*)contact.getShapeB()->getBody()->getNode());
+			e->enemyDead();
+		}
+	}
+	return true;
+}
+
+bool BattleScene::onContactEnter(PhysicsContact& contact)
+{
+	auto shapeA = contact.getShapeA()->getCollisionBitmask();
+	auto shapeB = contact.getShapeB()->getCollisionBitmask();
+	if ((shapeA == PLAYER_COLLISION_BITMASK && shapeB == ENEMY_COLLISION_BITMASK) || (shapeA == ENEMY_COLLISION_BITMASK && shapeB == PLAYER_COLLISION_BITMASK)
+		|| (shapeA == PLAYER_COLLISION_BITMASK && shapeB == FLAME_COLLISION_BITMASK) || (shapeA == FLAME_COLLISION_BITMASK && shapeB == PLAYER_COLLISION_BITMASK))
+	{
+		gameOver();
+	}
+	if ((shapeA == ENEMY_COLLISION_BITMASK && shapeB == FLAME_COLLISION_BITMASK) || (shapeA == FLAME_COLLISION_BITMASK && shapeB == ENEMY_COLLISION_BITMASK))
+	{
+		CCLOG("Enemy dead");
+		if (shapeA == ENEMY_COLLISION_BITMASK)
+		{
+			auto e = ((Enemy*) contact.getShapeA()->getBody()->getNode());
+			e->enemyDead();
+
+		}
+		if (shapeB == ENEMY_COLLISION_BITMASK)
+		{
+			auto e = ((Enemy*)contact.getShapeB()->getBody()->getNode());
+			e->enemyDead();
+		}
+	}
+	return true;
 }
 
 void BattleScene::changeEnemyDirection()
 {
 	lowGian->changeDirection();
+}
+
+void BattleScene::generateEnemies()
+{
+	lowGian = (LowGian*)LowGian::create();
+	lowGian->setPosition(enemySpawnPoint);
+	lowGian->setMoveDirection(MOVE_NORTH);
+	listEnemy.push_back(lowGian);
+	->addChild(lowGian);
 }
 
 CCPoint BattleScene::tileCoordForPosition(CCPoint position)

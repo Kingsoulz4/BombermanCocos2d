@@ -11,6 +11,8 @@ public:
 	virtual void move();
 
 	void setMoveDirection(int direction);
+	virtual void enemyDead();
+	bool isDead = false;
 
 private:
 
@@ -18,6 +20,7 @@ protected:
 	float dtMove = 0.15f;
 	float velocity = 10.f;
 	int moveDirection;
+	
 
 };
 

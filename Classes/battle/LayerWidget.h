@@ -37,5 +37,6 @@ private:
 	Sprite* joyStickThumbnail;
 	Bomber* playerUnderControl;
 	std::vector<Bomb*> bombPlaced;
+	std::vector<Flames*> flamesBurning;
 };
 

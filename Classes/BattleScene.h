@@ -1,5 +1,4 @@
-#ifndef __GAME_SCENE_H__
-#define __GAME_SCENE_H__
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocoStudio.h"
@@ -8,6 +7,7 @@
 #include <vector>
 #include "Definition.h"
 #include "characters/enemy/LowGian.h"
+#include "characters/enemy/Enemy.h"
 
 
 
@@ -30,18 +30,31 @@ public:
 	Bomber* getBomber();
 	void spawnWall();
 	void update(float dt);
+	void gameOver();
+	bool onContactBegin(PhysicsContact& contact);
+	bool onContactEnter(PhysicsContact& contact);
+
 	void changeEnemyDirection();
+	void generateEnemies();
+	
+	
+
 	LowGian* lowGian = nullptr;
 
 private:
 	CCTMXTiledMap *tileMap;
 	CCTMXLayer *background;
+	TMXLayer* layerObject;
+
 	Bomber *player;
 	CCTMXLayer *meta;
 	CCPoint tileCoordForPosition(CCPoint position);
 	void setPhysicsWorld(PhysicsWorld* physicsWorld);
 	PhysicsWorld* scenePhysicsWorld;
+
+	std::vector<Enemy*> listEnemy;
+	Point enemySpawnPoint;
 	
 };
 
-#endif // __GAME_SCENE_H__
+

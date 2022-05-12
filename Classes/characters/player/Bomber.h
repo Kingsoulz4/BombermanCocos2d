@@ -21,6 +21,9 @@ public:
 	int getMoveDirection();
 	void useWeapon();
 
+	
+
+
 private:
 	float velocity = 10.f;
 	float dtMove = 0.15f;

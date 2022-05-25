@@ -1,17 +1,12 @@
-#pragma once
+#pragma  once
 
-#include "cocos2d.h"
 #include "Enemy.h"
-#include "Definition.h"
-#include <time.h>
-#include "BattleScene.h"
 
-class LowGian : public Enemy
+class Ufo: public Enemy
 {
 public:
-	LowGian();
-	~LowGian();
-
+	Ufo();
+	~Ufo();
 	void move() override;
 	void moveNorth() override;
 	void moveEast() override;
@@ -19,11 +14,14 @@ public:
 	void moveWest() override;
 	void changeDirection() override;
 	void enemyDead() override;
-	
-	static LowGian* create(BattleScene *battleScene);
+	Animate* getUfoMoveAnimate();
+
+	virtual bool init();
+
+	static Ufo* create(BattleScene* battleScene);
 	void update(float dt);
 
 private:
-	
+
 };
 

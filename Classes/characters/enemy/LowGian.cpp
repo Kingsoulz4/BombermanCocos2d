@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LowGian.h"
+#include "ai/AIHigh.h"
 
 LowGian::LowGian()
 {
@@ -12,29 +13,98 @@ LowGian::~LowGian()
 
 void LowGian::move()
 {
-	dtMove = 0.15f;
-	velocity = 5.f;
-	if (moveDirection == MOVE_NORTH)
+	//Enemy::move();
+	if (moveStatus == MOVE_VIA_AIHIGH)
 	{
-		moveNorth();
+		moveStatus = MOVE_VIA_IDLE;
+		auto ai = new AIHigh(battleScene);
+		auto e3 = battleScene->getBomber();
+		Point pe3 = battleScene->tileCoordForPosition(Point(e3->getPositionX(), e3->getPositionY()));
+		/*auto e3 = battleScene->getTileMap()->getObjectGroup("EntryPoints")->getObject("E3");
+		auto pe3 = battleScene->tileCoordForPosition(Point(e3.at("x").asInt(), e3.at("y").asInt()));*/
+		auto pe2 = battleScene->tileCoordForPosition(this->getPosition());
+		auto path = ai->findpath(pe2, pe3);
+		if (path.size() == 0)
+		{
+			return;
+		}
+		Vector<FiniteTimeAction*> fta;
+		auto fromPos = this->getPosition();
+		Point toPos;
+		for (int i = 0; i < path.size(); i++)
+		{
+			if (i > 1)
+			{
+				fromPos = toPos;
+			}
+			toPos = battleScene->positionForTileCoord(path[path.size() - 1 - i]);
+			
+			auto moveTo = MoveTo::create(dtMove, toPos);
+			if (toPos.x > fromPos.x)
+			{
+				auto moveEastAnimation = Animation::create();
+				moveEastAnimation->setDelayPerUnit(ANIMATION_DELAY_PER_UNIT);
+				moveEastAnimation->setLoops(dtMove/(ANIMATION_DELAY_PER_UNIT*4));
+				moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally1.png")->getSpriteFrame());
+				moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally2.png")->getSpriteFrame());
+				moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally3.png")->getSpriteFrame());
+				moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally4.png")->getSpriteFrame());
+				auto moveEastAnimate = Animate::create(moveEastAnimation);
+				fta.pushBack(Spawn::createWithTwoActions(moveTo, moveEastAnimate));
+			}
+
+			else if (toPos.x < fromPos.x)
+			{
+				auto moveEastAnimation = Animation::create();
+				moveEastAnimation->setDelayPerUnit(ANIMATION_DELAY_PER_UNIT);
+				moveEastAnimation->setLoops(dtMove / (ANIMATION_DELAY_PER_UNIT * 4));
+				moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally1.png")->getSpriteFrame());
+				moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally2.png")->getSpriteFrame());
+				moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally3.png")->getSpriteFrame());
+				moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally4.png")->getSpriteFrame());
+				auto moveEastAnimate = Animate::create(moveEastAnimation);
+				fta.pushBack(Spawn::createWithTwoActions(moveTo, moveEastAnimate));
+			}
+
+			else if (toPos.y > fromPos.y)
+			{
+				auto moveNorthAnimation = Animation::create();
+				moveNorthAnimation->setDelayPerUnit(ANIMATION_DELAY_PER_UNIT);
+				moveNorthAnimation->setLoops(dtMove / (ANIMATION_DELAY_PER_UNIT * 2));
+				moveNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveVertically1.png")->getSpriteFrame());
+				moveNorthAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveVertically4.png")->getSpriteFrame());
+				auto moveNorthAnimate = Animate::create(moveNorthAnimation);
+				fta.pushBack(Spawn::createWithTwoActions(moveTo, moveNorthAnimate));
+				
+			}
+
+			else if (toPos.y < fromPos.y)
+			{
+				auto moveSouthAnimation = Animation::create();
+				moveSouthAnimation->setDelayPerUnit(ANIMATION_DELAY_PER_UNIT);
+				moveSouthAnimation->setLoops(dtMove / (ANIMATION_DELAY_PER_UNIT * 2));
+				moveSouthAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveVertically2.png")->getSpriteFrame());
+				moveSouthAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveVertically3.png")->getSpriteFrame());
+				auto moveSouthAnimate = Animate::create(moveSouthAnimation);
+				fta.pushBack(Spawn::createWithTwoActions(moveTo, moveSouthAnimate));
+			}
+			//fta.pushBack(moveTo);
+			
+
+		}
+		this->runAction(Sequence::create(Sequence::create(fta), CallFunc::create([=] {
+			moveDirection = MOVE_VIA_AIHIGH;
+		}), NULL));
+		auto pos = this->getPosition();
 	}
-	if (moveDirection == MOVE_EAST)
-	{
-		moveEast();
-	}
-	if (moveDirection == MOVE_WEST)
-	{
-		moveWest();
-	}
-	if (moveDirection == MOVE_SOUTH)
-	{
-		moveSouth();
-	}
+	
 }
 
 void LowGian::moveNorth()
 {
 	//moveDirection = MOVE_NORTH;
+	//this->stopAllActions(); 	BomberSquad.exe!LowGian::move() Line 21	C++
+
 	auto moveNorthAnimation = Animation::create();
 	moveNorthAnimation->setDelayPerUnit(dtMove);
 	moveNorthAnimation->setLoops(1);
@@ -57,6 +127,7 @@ void LowGian::moveNorth()
 void LowGian::moveEast()
 {
 	//moveDirection = MOVE_EAST;
+	//this->stopAllActions();
 	auto moveEastAnimation = Animation::create();
 	moveEastAnimation->setDelayPerUnit(dtMove);
 	moveEastAnimation->setLoops(1);
@@ -66,6 +137,7 @@ void LowGian::moveEast()
 	moveEastAnimation->addSpriteFrame(Sprite::create("Sprites/Enemies/LowGianMoveHorizontally4.png")->getSpriteFrame());
 	auto moveEastAnimate = Animate::create(moveEastAnimation);
 	auto lowGianWalkEast = MoveBy::create(dtMove, Vec2(velocity , 0));
+
 	lowGianWalkEast->setTag(22);
 	moveEastAnimate->setTag(12);
 	if (this->getActionByTag(12) == nullptr)
@@ -81,6 +153,7 @@ void LowGian::moveEast()
 void LowGian::moveSouth()
 {
 	//moveDirection = MOVE_SOUTH;
+	//this->stopAllActions();
 	auto moveSouthAnimation = Animation::create();
 	moveSouthAnimation->setDelayPerUnit(dtMove);
 	moveSouthAnimation->setLoops(1);
@@ -102,6 +175,7 @@ void LowGian::moveSouth()
 
 void LowGian::moveWest()
 {
+	//this->stopAllActions();
 	//moveDirection = MOVE_WEST;
 	auto moveEastAnimation = Animation::create();
 	moveEastAnimation->setDelayPerUnit(dtMove);
@@ -122,25 +196,37 @@ void LowGian::moveWest()
 	{
 		this->runAction(lowGianWalkEast);
 	}
+	
 }
 
 void LowGian::changeDirection()
 {
+	//this->stopAllActions();
+	isMoving = false;
 	srand(time(NULL));
-	int t = rand() % 14 + 11;
+	int t = rand() % 4 + 11;
 	while (t == moveDirection)
 	{
-		t = rand() % 14 + 11;
+		t = rand() % 4 + 11;
 	}
 	moveDirection = t;
+	
 
 }
 
-LowGian* LowGian::create()
+void LowGian::enemyDead()
 {
+	Enemy::enemyDead();
+	this->removeFromParent();
+}
+
+LowGian* LowGian::create(BattleScene* battleScene)
+{
+	
 	auto ret = new (std::nothrow) LowGian;
 	if (ret && ret->initWithFile("Sprites/Enemies/LowGianMoveHorizontally1.png")) {
 		ret->autorelease();
+		ret->battleScene = battleScene;
 		auto lowGianPhysicbody = PhysicsBody::createBox(ret->getContentSize());
 		lowGianPhysicbody->setCollisionBitmask(ENEMY_COLLISION_BITMASK);
 		lowGianPhysicbody->setContactTestBitmask(true);
@@ -148,8 +234,21 @@ LowGian* LowGian::create()
 		lowGianPhysicbody->setDynamic(false);
 		
 		ret->setPhysicsBody(lowGianPhysicbody);
+		ret->scheduleUpdate();
+		ret->moveStatus = MOVE_VIA_AIHIGH;
+		/*ret->schedule([=](float dt) {
+			
+			ret->changeDirection();
+			}, 1.2f, "LowGianMove");*/
 		return ret;
 	}
 	CC_SAFE_RELEASE(ret);
 	return nullptr;
+}
+
+void LowGian::update(float dt)
+{
+	//Enemy::update(dt);
+	this->move();
+	CCLOG("LowGian update");
 }

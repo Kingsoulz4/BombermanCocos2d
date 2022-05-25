@@ -1,9 +1,9 @@
 #include "Bomber.h"
 
-Bomber * Bomber::create(const std::string & file)
+Bomber * Bomber::create()
 {
 	auto ret = new (std::nothrow) Bomber;
-	if (ret && ret->initWithFile(file)) {
+	if (ret && ret->initWithFile("Sprites/Player/BomberWalkDown1.png")) {
 		ret->autorelease();
 		//ret->velocity = 1.f; //declare here or in init
 		return ret;
@@ -28,6 +28,10 @@ void Bomber::move()
 
 void Bomber::move(float cosA, float sinA)
 {
+	if (!this->_canMove)
+	{
+		return;
+	}
 	if (cosA >= sqrt(2)/2 && cosA<=1)
 	{
 		
@@ -81,8 +85,6 @@ void Bomber::walkSouth()
 
 void Bomber::walkNorth()
 {
-	
-
 	moveDirection = MOVE_NORTH;
 	//this->stopAllActions();
 	auto walkNorthAnimation = Animation::create();
@@ -163,7 +165,26 @@ void Bomber::walkWest()
 	if (this->getActionByTag(24) == nullptr)
 	{
 		this->runAction(bomberWalkWest);
+		//moveDirection = 0;
 	}
+}
+
+void Bomber::dead()
+{
+	this->stopAllActions();
+	auto playerDeadAnimation = Animation::create();
+	playerDeadAnimation->setDelayPerUnit(deadTime / 5);
+	playerDeadAnimation->setLoops(1);
+	playerDeadAnimation->addSpriteFrame(Sprite::create("Sprites/Player/bomberDie1.png")->getSpriteFrame());
+	playerDeadAnimation->addSpriteFrame(Sprite::create("Sprites/Player/bomberDie2.png")->getSpriteFrame());
+	playerDeadAnimation->addSpriteFrame(Sprite::create("Sprites/Player/bomberDie3.png")->getSpriteFrame());
+	playerDeadAnimation->addSpriteFrame(Sprite::create("Sprites/Player/bomberDie4.png")->getSpriteFrame());
+	playerDeadAnimation->addSpriteFrame(Sprite::create("Sprites/Player/bomberDie5.png")->getSpriteFrame());
+	auto playerDeadAnimate = Animate::create(playerDeadAnimation);
+	this->runAction(playerDeadAnimate);
+
+
+
 }
 
 int Bomber::getMoveDirection()
@@ -171,6 +192,73 @@ int Bomber::getMoveDirection()
 	return this->moveDirection;
 }
 
+void Bomber::setMoveDirection(int dir)
+{
+	this->moveDirection = dir;
+}
+
 void Bomber::useWeapon()
 {
+	AudioManger::getInstance()->playBomberPlaceBomb();
+}
+
+void Bomber::useItem(int type)
+{
+	CCLOG("use item %i", type);
+
+	if (type == BONUS_BOMB_ITEM)
+	{
+		increaseBombLimit();
+	}
+	if (type == SPEEDUP_ITEM)
+	{
+		increaseVelocity();
+	}
+	if (type == SPEEDUP_ITEM)
+	{
+
+	}
+	if (type == BONUS_LIFE_ITEM)
+	{
+		increaseLife();
+	}
+	if (type == POWERUP_FLAME_BOMB)
+	{
+		increaseFlamePower();
+	}
+}
+
+void Bomber::increaseBombLimit()
+{
+	bombLimit++;
+}
+
+int Bomber::getBombLimit()
+{
+	return bombLimit;
+}
+
+void Bomber::increaseVelocity()
+{
+	velocity *= 1.5f;
+}
+
+void Bomber::increaseLife()
+{
+	life++;
+}
+
+int Bomber::getLife()
+{
+	return life;
+}
+
+int Bomber::getFlamePower()
+{
+	return flamePower;
+}
+
+void Bomber::increaseFlamePower()
+{
+	flamePower++;
 }

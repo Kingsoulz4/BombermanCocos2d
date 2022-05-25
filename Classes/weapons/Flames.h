@@ -8,9 +8,11 @@ public:
 	Flames();
 	~Flames();
 	static Flames* create();
+	static Flames* create(int power);
 	void update(float dt);
 	float getTimeDouse();
 	virtual bool init();
+	int _power = 1;
 
 
 private:

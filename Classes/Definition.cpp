@@ -1,4 +1,10 @@
 #include "Definition.h"
+#include <iostream>
+
+int randRange(int min, int max)
+{
+	return rand() % (max - min +1) + min;
+}
 
 int getDirection(float cosA, float sinA)
 {

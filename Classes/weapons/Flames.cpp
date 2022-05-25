@@ -129,6 +129,63 @@ Flames* Flames::create()
 	return nullptr;
 }
 
+Flames* Flames::create(int power)
+{
+	auto ret = new (std::nothrow) Flames;
+	if (ret && ret->initWithFile("explosions/Flame1.png")) {
+		ret->autorelease();
+		ret->_power = power;
+		//ret->init();
+		int dx[4] = {0,0,1,-1};
+		int dy[4] = {1,-1,0,0};
+		for (int  i = 0; i <= ret->_power; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				auto flame = Sprite::create("explosions/Flame1.png");
+				flame->setScale(0.9);
+				flame->setPosition(Point(ret->getPositionX() + dx[j]*(i) * (ret->getContentSize().width / 1.14), ret->getPositionY() + dy[j]*(i) * (ret->getContentSize().height / 1.14)));
+				flame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+				auto flameHTopLeftAnimation = Animation::create();
+				flameHTopLeftAnimation->setLoops(-1);
+				flameHTopLeftAnimation->setDelayPerUnit(0.15f);
+				flameHTopLeftAnimation->addSpriteFrame(Sprite::create("explosions/Flame1.png")->getSpriteFrame());
+				flameHTopLeftAnimation->addSpriteFrame(Sprite::create("explosions/Flame2.png")->getSpriteFrame());
+				flameHTopLeftAnimation->addSpriteFrame(Sprite::create("explosions/Flame3.png")->getSpriteFrame());
+				flameHTopLeftAnimation->addSpriteFrame(Sprite::create("explosions/Flame4.png")->getSpriteFrame());
+				flameHTopLeftAnimation->addSpriteFrame(Sprite::create("explosions/Flame5.png")->getSpriteFrame());
+				flameHTopLeftAnimation->addSpriteFrame(Sprite::create("explosions/Flame6.png")->getSpriteFrame());
+				flameHTopLeftAnimation->addSpriteFrame(Sprite::create("explosions/Flame7.png")->getSpriteFrame());
+				flameHTopLeftAnimation->addSpriteFrame(Sprite::create("explosions/Flame8.png")->getSpriteFrame());
+				auto flameHTopLeftAnimate = Animate::create(flameHTopLeftAnimation);
+				flame->runAction(flameHTopLeftAnimate);
+				auto flameHTopLeftPhysicBody = PhysicsBody::createBox(flame->getContentSize());
+				flameHTopLeftPhysicBody->setCollisionBitmask(FLAME_COLLISION_BITMASK);
+				flameHTopLeftPhysicBody->setGravityEnable(false);
+				flameHTopLeftPhysicBody->setContactTestBitmask(true);
+				flameHTopLeftPhysicBody->setDynamic(false);
+				flame->setPhysicsBody(flameHTopLeftPhysicBody);
+				ret->addChild(flame);
+				if (i==0)
+				{
+					break;
+				}
+			}
+		}
+		/*auto flamePhysicbody = PhysicsBody::createBox(ret->getContentSize());
+		flamePhysicbody->setCollisionBitmask(ENEMY_COLLISION_BITMASK);
+		flamePhysicbody->setContactTestBitmask(true);
+		flamePhysicbody->setGravityEnable(false);
+		flamePhysicbody->setDynamic(false);*/
+
+		/*ret->setPhysicsBody(flamePhysicbody);*/
+		ret->scheduleUpdate();
+		return ret;
+	}
+	CC_SAFE_RELEASE(ret);
+	return nullptr;
+}
+
 void Flames::update(float dt)
 {
 	if (timeDouse > 0.f)

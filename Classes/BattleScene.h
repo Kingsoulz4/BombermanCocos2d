@@ -6,18 +6,17 @@
 #include "characters/player/Bomber.h"
 #include <vector>
 #include "Definition.h"
-#include "characters/enemy/LowGian.h"
-#include "characters/enemy/Enemy.h"
-
-
-
+#include "characters/player/Bomber.h"
+#include "audio/AudioManager.h"
 
 USING_NS_CC;
 
+
 class BattleScene : public cocos2d::Layer
 {
-public:
 
+public:
+	Cam cam;
 	virtual bool init();
 	static Scene* createScene();
 	virtual bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
@@ -31,28 +30,48 @@ public:
 	void spawnWall();
 	void update(float dt);
 	void gameOver();
+	void gamePause();
 	bool onContactBegin(PhysicsContact& contact);
 	bool onContactEnter(PhysicsContact& contact);
 
 	void changeEnemyDirection();
 	void generateEnemies();
+	void setColliderToObjectlayer(TMXLayer* layer, int collisionBitmask);
+	void addColliderToTileMap();
+	void getTileMapComponents();
+	Point tileCoordForPosition(Point point);
+	Point positionForTileCoord(Point point);
+	bool detectCollision(Point point);
+
+	TMXTiledMap* getTileMap();
+	CCTMXLayer* getLayerground();
+	TMXLayer* getLayerFrame();
+	TMXLayer* getLayerObstacle();
+	TMXLayer* getLayerContainer();
+	CCTMXObjectGroup* getEntryPoints();
 	
 	Layer* layerBatlle;
+	Node* currentTarget = nullptr;
+	float tileMapScaled = 1.f;
+	
 
-	LowGian* lowGian = nullptr;
+	
 
 private:
 	CCTMXTiledMap *tileMap;
-	CCTMXLayer *background;
-	TMXLayer* layerObject;
+	CCTMXLayer *layerground;
+	TMXLayer* layerFrame;
+	TMXLayer* layerObstacle;
+	TMXLayer* layerContainer;
+	CCTMXObjectGroup* entryPoints;
+	TMXLayer* layerItem;
 
 	Bomber *player;
 	CCTMXLayer *meta;
-	CCPoint tileCoordForPosition(CCPoint position);
 	void setPhysicsWorld(PhysicsWorld* physicsWorld);
 	PhysicsWorld* scenePhysicsWorld;
 
-	std::vector<Enemy*> listEnemy;
+	
 	Point enemySpawnPoint;
 	
 };

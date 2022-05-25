@@ -6,6 +6,8 @@
 #include "weapons/Bomb.h"
 #include "weapons/Flames.h"
 #include "characters/player/Bomber.h"
+#include "BattleScene.h"
+#include "audio/AudioManager.h"
 
 USING_NS_CC;
 
@@ -21,7 +23,8 @@ public:
 	void setPlayerUnderControl(Bomber* bomber);
 	Bomber* getPlayerUnderControl();
 	// implement the "static create()" method manually
-	CREATE_FUNC(LayerWidget);
+	BattleScene* battleScene;
+	static LayerWidget* create(BattleScene* battleScene);
 
 	virtual bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
 	virtual void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event);

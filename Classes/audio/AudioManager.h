@@ -20,6 +20,14 @@ public:
 	void playBomberWalk();
 	void playGameOver();
 	void playItemCollected();
+	void playIntroductionSound();
+	void stopIntroductionSound();
+	void disableAllEffects();
+	void disableMusic();
+	void enableAllEffects();
+	void enableMusic();
+	void playVictory();
+
 
 private:
 

@@ -39,6 +39,7 @@ public:
 	void increaseFlamePower();
 	float deadTime = 2;
 	bool _canMove = true;
+	bool _isDead = false;
 	
 
 	

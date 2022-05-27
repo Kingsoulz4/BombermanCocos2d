@@ -68,12 +68,20 @@ bool LayerWidget::init()
 		
 	});
 
-	auto btnPause = ui::Button::create("Controllers/btnUseWeapon.png");
-	btnPause->setPosition(Point(visibleSize.width - 5 * btnPause->getContentSize().width, visibleSize.height - 5 * btnPause->getContentSize().height));
+	auto btnPause = ui::Button::create("Controllers/pause.png");
+	btnPause->setPosition(Point(btnPause->getContentSize().width, visibleSize.height - btnPause->getContentSize().height));
 	this->addChild(btnPause);
-	btnPause->setScale(5);
 	btnPause->addClickEventListener([=](Ref*) {
-		battleScene->changeEnemyDirection();
+		if (battleScene->_isPause)
+		{
+			battleScene->gameResume();
+		}
+		else
+		{
+			battleScene->gamePause();
+		}
+		
+
 	});
 
 	//Update

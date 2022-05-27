@@ -14,7 +14,7 @@ LowGian::~LowGian()
 void LowGian::move()
 {
 	//Enemy::move();
-	if (moveStatus == MOVE_VIA_AIHIGH)
+	if (moveStatus == MOVE_VIA_AIHIGH && !battleScene->getBomber()->_isDead)
 	{
 		moveStatus = MOVE_VIA_IDLE;
 		auto ai = new AIHigh(battleScene);
@@ -93,7 +93,7 @@ void LowGian::move()
 
 		}
 		this->runAction(Sequence::create(Sequence::create(fta), CallFunc::create([=] {
-			moveDirection = MOVE_VIA_AIHIGH;
+			moveStatus = MOVE_VIA_AIHIGH;
 		}), NULL));
 		auto pos = this->getPosition();
 	}

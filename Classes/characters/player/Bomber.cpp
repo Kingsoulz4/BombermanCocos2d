@@ -171,6 +171,7 @@ void Bomber::walkWest()
 
 void Bomber::dead()
 {
+	_isDead = true;
 	this->stopAllActions();
 	auto playerDeadAnimation = Animation::create();
 	playerDeadAnimation->setDelayPerUnit(deadTime / 5);

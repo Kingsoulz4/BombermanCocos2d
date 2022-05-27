@@ -59,7 +59,7 @@ bool HelloWorld::init()
 	switchToBattle->onTouchBegan = [=](Touch* touch, Event* event)
 	{
         
-		Director::getInstance()->replaceScene(BattleScene::createScene());
+		Director::getInstance()->replaceScene(BattleScene::createScene(1));
 		return true;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(switchToBattle, this);

@@ -5,9 +5,10 @@
 #include "characters/enemy/Heli.h"
 #include "characters/enemy/Ufo.h"
 #include "ai/AIHigh.h"
+#include "ChooseLevelScene.h"
 
 std::vector<Enemy*> listEnemy;
-
+LayerWidget* layerWidget;
 
 
 bool BattleScene::init()
@@ -28,7 +29,7 @@ bool BattleScene::init()
 	this->setContentSize(visibleSize);
 	//tile map
 	tileMap = new CCTMXTiledMap();
-	tileMap->initWithTMXFile("tmx/battle2.tmx");
+	tileMap->initWithTMXFile("tmx/battle" + std::to_string(level) + ".tmx");
 	tileMap->addChild(layerBatlle);
 	//tileMap->setScale(0.67);
 	tileMap->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -102,7 +103,7 @@ bool BattleScene::init()
 
 
 	// Add widget layer
-	auto layerWidget = LayerWidget::create(this);
+	layerWidget = LayerWidget::create(this);
 	layerWidget->setPlayerUnderControl(player);
 	this->addChild(layerWidget);
 
@@ -125,11 +126,11 @@ bool BattleScene::init()
 	return true;
 }
 
-Scene* BattleScene::createScene()
+Scene* BattleScene::createScene(int level)
 {
 	auto scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	auto layer = BattleScene::create();
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	auto layer = BattleScene::create(level);
 	layer->setPhysicsWorld(scene->getPhysicsWorld());
 	scene->addChild(layer);
 	
@@ -151,6 +152,19 @@ void BattleScene::onTouchEnded(cocos2d::Touch * touch, cocos2d::Event * event)
 
 void BattleScene::onTouchCancelled(cocos2d::Touch * touch, cocos2d::Event * event)
 {
+}
+
+BattleScene* BattleScene::create(int level)
+{
+	auto ret = new (std::nothrow) BattleScene;
+	if (ret) {
+		ret->autorelease();
+		ret->level = level;
+		ret->init();
+		return ret;
+	}
+	CC_SAFE_RELEASE(ret);
+	return nullptr;
 }
 
 void BattleScene::setBomber(Bomber * bomber)
@@ -232,35 +246,46 @@ void BattleScene::update(float dt)
 	}
 	
 	//CCLOG("Bomber collide");
-	float offset = player->getVelocity() * 3 * this->tileMapScaled;
+	float offset = player->getVelocity() * this->tileMapScaled;
 	
 	if (playerMoveDirection == MOVE_EAST && detectCollision(Point(player->getPositionX() + offset, player->getPositionY())))
 	{
 		player->setPositionX(player->getPositionX() - player->getVelocity());
-		cam.posX -= player->getVelocity()/2;
+		cam.posX += player->getVelocity();
+		player->_canMove = false;
 		
 	}
 	else if (playerMoveDirection == MOVE_WEST && detectCollision(Point(player->getPositionX() - offset, player->getPositionY())))
 	{
 		player->setPositionX(player->getPositionX() + player->getVelocity());
-		cam.posX += player->getVelocity()/2;
+		cam.posX -= player->getVelocity();
 		player->_canMove = false;
 	}
 	else if (playerMoveDirection == MOVE_NORTH && detectCollision(Point(player->getPositionX() , player->getPositionY() + offset)))
 	{
 		player->setPositionY(player->getPositionY() - player->getVelocity());
-		cam.posY -= player->getVelocity()/2;
+		cam.posY += player->getVelocity();
 		player->_canMove = false;
 	}
 	else if (playerMoveDirection == MOVE_SOUTH && detectCollision(Point(player->getPositionX(), player->getPositionY() - offset)))
 	{
 		player->setPositionY(player->getPositionY() + player->getVelocity());
-		cam.posY += player->getVelocity()/2;
+		cam.posY -= player->getVelocity();
 		player->_canMove = false;
 	}
 	else
 	{
 		player->_canMove = true;
+	}
+
+	if (player->_isDead)
+	{
+		player->deadTime -= dt;
+	}
+
+	if (player->deadTime < 0)
+	{
+		gameOver();
 	}
 	
 
@@ -270,19 +295,43 @@ void BattleScene::gameOver()
 {
 	//CCLOG("Game over");
 	AudioManger::getInstance()->playGameOver();
+	Director::getInstance()->replaceScene(TransitionFade::create(0.15f, ChooseLevelScene::create()));
 }
 
 void BattleScene::gamePause()
 {
-	this->pause();
+	_isPause = true;
+	this->pauseSchedulerAndActions();
+	//this->pause();
 	layerBatlle->pause();
 	player->pause();
-	//this->setCameraMask(-1, true);
 	for (auto e : listEnemy)
 	{
 		e->pause();
 	}
+	player->pause();
+	layerWidget->pause();
 	
+	
+}
+
+void BattleScene::gameWin()
+{
+	AudioManger::getInstance()->playVictory();
+	Director::getInstance()->replaceScene(TransitionFade::create(0.15f, ChooseLevelScene::create()));
+}
+
+void BattleScene::gameResume()
+{
+	_isPause = false;
+	this->resumeSchedulerAndActions();
+	layerBatlle->resume();
+	for (auto e : listEnemy)
+	{
+		e->resume();
+	}
+	player->resume();
+	layerWidget->resume();
 }
 
 bool BattleScene::onContactBegin(PhysicsContact& contact)
@@ -296,8 +345,12 @@ bool BattleScene::onContactBegin(PhysicsContact& contact)
 	if ((shapeA == PLAYER_COLLISION_BITMASK && shapeB == ENEMY_COLLISION_BITMASK ) ||(shapeA == ENEMY_COLLISION_BITMASK && shapeB == PLAYER_COLLISION_BITMASK) 
 		|| (shapeA == PLAYER_COLLISION_BITMASK && shapeB == FLAME_COLLISION_BITMASK) || (shapeA == FLAME_COLLISION_BITMASK && shapeB == PLAYER_COLLISION_BITMASK))
 	{
-		player->dead();
-		gameOver();
+		if (!player->_isDead)
+		{
+			player->dead();
+		}
+		
+		
 	}
 	
 	if ((shapeA == ENEMY_COLLISION_BITMASK && shapeB == FLAME_COLLISION_BITMASK) || (shapeA == FLAME_COLLISION_BITMASK && shapeB == ENEMY_COLLISION_BITMASK))
@@ -363,9 +416,19 @@ bool BattleScene::onContactBegin(PhysicsContact& contact)
 						{
 							auto v = tileMap->propertiesForGID(layerItem->getTileGIDAt(Point(j, i))).asValueMap();
 							auto y = v["itemType"].asInt();
-							player->useItem(y);
-							shape->removeFromParent();
+							if (y == PORTAL)
+							{
+								gameWin();
+								
+							}
+							else
+							{
+								player->useItem(y);
+								shape->removeFromParent();
+								
+							}
 							return true;
+							
 						}
 					}
 				}
@@ -469,7 +532,7 @@ void BattleScene::setColliderToObjectlayer(TMXLayer* layer, int collisionBitmask
 				obj->setPhysicsBody(_physicsBody);
 				if (collisionBitmask == ITEM_COLLISION_BITMASK)
 				{
-					obj->setScale(0.8);
+					obj->setScale(0.6);
 					obj->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 					obj->setPosition(Point(obj->getPositionX()+tileMap->getTileSize().width/1.3 , obj->getPositionY() + tileMap->getTileSize().height/1.3 ));
 				}

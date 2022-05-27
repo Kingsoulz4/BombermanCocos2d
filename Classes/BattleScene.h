@@ -18,19 +18,22 @@ class BattleScene : public cocos2d::Layer
 public:
 	Cam cam;
 	virtual bool init();
-	static Scene* createScene();
+	static Scene* createScene(int level);
 	virtual bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
 	virtual void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event);
 	virtual void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
 	virtual void onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *event);
 	// implement the "static create()" method manually
-	CREATE_FUNC(BattleScene);
+	//CREATE_FUNC(BattleScene);
+	static BattleScene* create(int level);
 	void setBomber(Bomber *bomber);
 	Bomber* getBomber();
 	void spawnWall();
 	void update(float dt);
 	void gameOver();
 	void gamePause();
+	void gameWin();
+	void gameResume();
 	bool onContactBegin(PhysicsContact& contact);
 	bool onContactEnter(PhysicsContact& contact);
 
@@ -53,6 +56,7 @@ public:
 	Layer* layerBatlle;
 	Node* currentTarget = nullptr;
 	float tileMapScaled = 1.f;
+	bool _isPause = false;
 	
 
 	
@@ -71,7 +75,7 @@ private:
 	void setPhysicsWorld(PhysicsWorld* physicsWorld);
 	PhysicsWorld* scenePhysicsWorld;
 
-	
+	int level = 1;
 	Point enemySpawnPoint;
 	
 };

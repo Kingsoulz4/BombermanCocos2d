@@ -1,0 +1,174 @@
+<Solution>
+  <PropertyGroup Name="BombermanUI" Version="3.10.0.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Folder Name="animation">
+          <Folder Name="scripts">
+            <Pu Name="default.pu" />
+          </Folder>
+          <Folder Name="textures">
+            <Image Name="default.png" />
+          </Folder>
+          <Image Name="alpha.png" />
+          <Image Name="arrowX.png" />
+          <Image Name="arrowY.png" />
+          <Image Name="arrowZ.png" />
+          <Image Name="Button_Disable.png" />
+          <Image Name="Button_Normal.png" />
+          <Image Name="Button_Press.png" />
+          <Mesh Name="camera.c3b" />
+          <Image Name="CheckBox_Disable.png" />
+          <Image Name="CheckBox_Normal.png" />
+          <Image Name="CheckBox_Press.png" />
+          <Image Name="CheckBoxNode_Disable.png" />
+          <Image Name="CheckBoxNode_Normal.png" />
+          <Fnt Name="defaultBMFont.fnt" />
+          <TmxFile Name="defaultMap.tmx" />
+          <PlistParticleFile Name="defaultParticle.plist" />
+          <ExportJsonFile Name="DemoPlayer.ExportJson" />
+          <Mesh Name="empty.c3t" />
+          <Image Name="ImageFile.png" />
+          <Image Name="Light_Ambint.png" />
+          <Image Name="Light_Directional.png" />
+          <Image Name="Light_Point.png" />
+          <Image Name="Light_Spot.png" />
+          <Image Name="LoadingBarFile.png" />
+          <Image Name="missing.png" />
+          <Fnt Name="missing-font.fnt" />
+          <Image Name="skeleton.png" />
+          <Image Name="skeleton@2x.png" />
+          <Image Name="skybox.png" />
+          <Image Name="Slice3D.png" />
+          <Image Name="Slider_Back.png" />
+          <Image Name="Slider_PressBar.png" />
+          <Image Name="SliderNode_Disable.png" />
+          <Image Name="SliderNode_Normal.png" />
+          <Image Name="SliderNode_Press.png" />
+          <Image Name="Sprite.png" />
+          <Image Name="Sprite3D.png" />
+          <Image Name="TextAtlas.png" />
+          <Image Name="white.png" />
+        </Folder>
+        <Folder Name="backgrounds">
+          <Image Name="background_hightscore.png" />
+          <Image Name="character-selection-background.jpg" />
+          <Image Name="menu-background.jpg" />
+        </Folder>
+        <Folder Name="Controllers">
+          <Image Name="back-arrow.png" />
+          <Image Name="btnUseWeapon.png" />
+          <Image Name="check.png" />
+          <Image Name="Controllers_01.png" />
+          <Image Name="Controllers_02.png" />
+          <Image Name="Controllers_03.png" />
+          <Image Name="Controllers_04.png" />
+          <Image Name="Controllers_05.png" />
+          <Image Name="Controllers_06.png" />
+          <Image Name="Controllers_07.png" />
+          <Image Name="Controllers_08.png" />
+          <Image Name="Controllers_09.png" />
+          <Image Name="Controllers_10.png" />
+          <Image Name="Controllers_100.png" />
+          <Image Name="Controllers_11.png" />
+          <Image Name="Controllers_12.png" />
+          <Image Name="Controllers_13.png" />
+          <Image Name="Controllers_14.png" />
+          <Image Name="Controllers_15.png" />
+          <Image Name="Controllers_16.png" />
+          <Image Name="Controllers_17.png" />
+          <Image Name="Controllers_18.png" />
+          <Image Name="Controllers_19.png" />
+          <Image Name="Controllers_20.png" />
+          <Image Name="Controllers_21.png" />
+          <Image Name="Controllers_22.png" />
+          <Image Name="Controllers_23.png" />
+          <Image Name="Controllers_24.png" />
+          <Image Name="Controllers_25.png" />
+          <Image Name="Controllers_26.png" />
+          <Image Name="Controllers_27.png" />
+          <Image Name="Controllers_28.png" />
+          <Image Name="Controllers_29.png" />
+          <Image Name="Controllers_30.png" />
+          <Image Name="Controllers_36.png" />
+          <Image Name="Controllers_37.png" />
+          <Image Name="Controllers_38.png" />
+          <Image Name="Controllers_39.png" />
+          <Image Name="Controllers_40.png" />
+          <Image Name="Controllers_41.png" />
+          <Image Name="Controllers_42.png" />
+          <Image Name="Controllers_43.png" />
+          <Image Name="Controllers_44.png" />
+          <Image Name="Controllers_45.png" />
+          <Image Name="Controllers_46.png" />
+          <Image Name="Controllers_47.png" />
+          <Image Name="Controllers_48.png" />
+          <Image Name="Controllers_49.png" />
+          <Image Name="Controllers_50.png" />
+          <Image Name="Controllers_51.png" />
+          <Image Name="Controllers_52.png" />
+          <Image Name="Controllers_53.png" />
+          <Image Name="Controllers_54.png" />
+          <Image Name="Controllers_55.png" />
+          <Image Name="Controllers_56.png" />
+          <Image Name="Controllers_57.png" />
+          <Image Name="Controllers_58.png" />
+          <Image Name="Controllers_59.png" />
+          <Image Name="Controllers_60.png" />
+          <Image Name="Controllers_61.png" />
+          <Image Name="Controllers_62.png" />
+          <Image Name="Controllers_63.png" />
+          <Image Name="Controllers_64.png" />
+          <Image Name="Controllers_65.png" />
+          <Image Name="Controllers_71.png" />
+          <Image Name="Controllers_72.png" />
+          <Image Name="Controllers_73.png" />
+          <Image Name="Controllers_74.png" />
+          <Image Name="Controllers_75.png" />
+          <Image Name="Controllers_76.png" />
+          <Image Name="Controllers_77.png" />
+          <Image Name="Controllers_78.png" />
+          <Image Name="Controllers_79.png" />
+          <Image Name="Controllers_80.png" />
+          <Image Name="Controllers_81.png" />
+          <Image Name="Controllers_82.png" />
+          <Image Name="Controllers_83.png" />
+          <Image Name="Controllers_84.png" />
+          <Image Name="Controllers_85.png" />
+          <Image Name="Controllers_86.png" />
+          <Image Name="Controllers_87.png" />
+          <Image Name="Controllers_88.png" />
+          <Image Name="Controllers_89.png" />
+          <Image Name="Controllers_90.png" />
+          <Image Name="Controllers_91.png" />
+          <Image Name="Controllers_92.png" />
+          <Image Name="Controllers_93.png" />
+          <Image Name="Controllers_94.png" />
+          <Image Name="Controllers_95.png" />
+          <Image Name="Controllers_96.png" />
+          <Image Name="Controllers_97.png" />
+          <Image Name="Controllers_98.png" />
+          <Image Name="Controllers_99.png" />
+          <Image Name="Exit.png" />
+          <Image Name="Exit2.png" />
+          <Image Name="HightScore.png" />
+          <Image Name="HightScore2.png" />
+          <Image Name="JoyStick.png" />
+          <Image Name="JoyStickThumb.png" />
+          <Image Name="JoyStickThumbnail.png" />
+          <Image Name="music.png" />
+          <Image Name="musical-note.png" />
+          <Image Name="Option.png" />
+          <Image Name="Option2.png" />
+          <Image Name="Play.png" />
+          <Image Name="Play2.png" />
+        </Folder>
+        <ExportJsonFile Name="DemoPlayer.ExportJson" />
+        <Project Name="Layer.csd" Type="Layer" />
+        <Project Name="LayerChooseLevel.csd" Type="Layer" />
+        <Project Name="SplashScene.csd" Type="Layer" />
+        <Project Name="OptionScene.csd" Type="Layer" />
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>

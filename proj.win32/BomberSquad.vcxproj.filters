@@ -34,6 +34,12 @@
     <Filter Include="src\levels">
       <UniqueIdentifier>{1fe42b94-ea0e-494b-aa00-5368b408bd03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\audio">
+      <UniqueIdentifier>{24a31337-10b6-46ab-9334-9d8dda7f63f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ai">
+      <UniqueIdentifier>{5b2435fc-f9b3-4bd5-a869-8abcabc54edf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -132,6 +138,36 @@
     <ClCompile Include="..\Classes\GameController.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\audio\AudioManager.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\Heli.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\AIHigh.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\AIMedium.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\AI.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\AILow.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\characters\enemy\Ufo.cpp">
+      <Filter>src\characters\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\IntroductionScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ChooseLevelScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\OptionScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -225,6 +261,36 @@
       <Filter>src\weapons</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameController.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\audio\AudioManager.h">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\enemy\Heli.h">
+      <Filter>src\characters\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AIHigh.h">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AILow.h">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AIMedium.h">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AI.h">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\characters\enemy\Ufo.h">
+      <Filter>src\characters\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\IntroductionScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ChooseLevelScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\OptionScene.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -24,13 +24,44 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+
+import org.cocos2dx.cpp.model.CameraDisplayer;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import android.os.Build;
+import android.os.Debug;
+import android.support.v4.app.ActivityCompat;
+import android.view.SurfaceHolder;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
+import com.example.bombersquad.R;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 public class AppActivity extends Cocos2dxActivity {
+
+    Button btnNav;
+    boolean isRecording = false;
+    MediaRecorder mediaRecorder;
+    Camera cam;
+    FrameLayout cameraShowed;
+    CameraDisplayer cameraDisplayer;
+    View inflatedView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +83,108 @@ public class AppActivity extends Cocos2dxActivity {
             getWindow().setAttributes(lp);
         }
         // DO OTHER INITIALIZATION BELOW
-        
+        inflatedView = View.inflate(getContext(), R.layout.status_slide, null);
+
+
+
+
+
+        btnNav = inflatedView.findViewById(R.id.btnRecord);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        this.addContentView(inflatedView, params);
+        btnNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isRecording)
+                {
+                    if (checkPermission())
+                    {
+                        isRecording = true;
+
+                        startRecord();
+                    }
+
+                }
+                else {
+                    stopRecord();
+                    isRecording = false;
+                }
+            }
+        });
+//        LinearLayout layout = new LinearLayout(this);
+//        layout.addView(btnNav);
+//        this.addContentView(layout);
+
+    }
+
+    private void startRecord() {
+        mediaRecorder = new MediaRecorder();
+
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        //mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+
+        String fileName = "newAudio.mp4";
+        mediaRecorder.setOutputFile(this.getExternalFilesDir("/").getAbsolutePath()+fileName);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        //mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+
+        if (!checkCameraHardware(this))
+        {
+            System.out.println("No cam found");
+        }
+        else
+        {
+            cam = getCameraInstance();
+            cameraShowed = inflatedView.findViewById(R.id.cameraShowed);
+            cameraDisplayer = new CameraDisplayer(this , cam);
+            cameraShowed.addView(cameraDisplayer);
+
+        }
+
+        try {
+            mediaRecorder.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaRecorder.start();
+
+    }
+
+    private void stopRecord() {
+        mediaRecorder.stop();
+        cameraShowed.removeView(cameraDisplayer);
+    }
+
+    private boolean checkPermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO.toString()}, 21);
+            return false;
+        }
+    }
+
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT); // attempt to get a Camera instance
+        }
+        catch (Exception e){
+            // Camera is not available (in use or does not exist)
+        }
+        return c; // returns null if camera is unavailable
+    }
+
+    private boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
     }
 
 }

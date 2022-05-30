@@ -56,12 +56,22 @@ import java.time.format.DateTimeFormatter;
 public class AppActivity extends Cocos2dxActivity {
 
     Button btnNav;
-    boolean isRecording = false;
-    MediaRecorder mediaRecorder;
-    Camera cam;
-    FrameLayout cameraShowed;
-    CameraDisplayer cameraDisplayer;
-    View inflatedView;
+    static boolean isRecording = false;
+    static MediaRecorder mediaRecorder;
+    static Camera cam;
+    static FrameLayout cameraShowed;
+    static CameraDisplayer cameraDisplayer;
+    static View inflatedView;
+    static AppActivity _instance;
+    public static AppActivity get_instance() {
+        if (_instance == null)
+        {
+            _instance = new AppActivity();
+        }
+        return _instance;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,51 +95,57 @@ public class AppActivity extends Cocos2dxActivity {
         // DO OTHER INITIALIZATION BELOW
         inflatedView = View.inflate(getContext(), R.layout.status_slide, null);
 
-
-
-
-
         btnNav = inflatedView.findViewById(R.id.btnRecord);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.addContentView(inflatedView, params);
+        //
+        // this.addContentView(inflatedView, params);
         btnNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isRecording)
-                {
-                    if (checkPermission())
-                    {
-                        isRecording = true;
 
-                        startRecord();
-                    }
-
-                }
-                else {
-                    stopRecord();
-                    isRecording = false;
-                }
             }
         });
 //        LinearLayout layout = new LinearLayout(this);
 //        layout.addView(btnNav);
 //        this.addContentView(layout);
+        _instance = this;
 
     }
 
-    private void startRecord() {
-        mediaRecorder = new MediaRecorder();
+    public static void handleRecord()
+    {
+        if (!isRecording)
+        {
+            if (checkPermission())
+            {
+                isRecording = true;
+                startRecord();
+            }
 
+        }
+        else {
+            stopRecord();
+            isRecording = false;
+        }
+
+    }
+
+    private static void startRecord() {
+        if (mediaRecorder == null) {
+            mediaRecorder = new MediaRecorder();
+        }
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         //mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 
         String fileName = "newAudio.mp4";
-        mediaRecorder.setOutputFile(this.getExternalFilesDir("/").getAbsolutePath()+fileName);
+        mediaRecorder.setOutputFile(get_instance().getExternalFilesDir("/").getAbsolutePath()+fileName);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         //mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-
-        if (!checkCameraHardware(this))
+        //mediaRecorder.setVideoEncodingBitRate(512*1000);
+        //mediaRecorder.setVideoFrameRate(30);
+        //int rotation =
+        if (!checkCameraHardware(get_instance()))
         {
             System.out.println("No cam found");
         }
@@ -137,7 +153,7 @@ public class AppActivity extends Cocos2dxActivity {
         {
             cam = getCameraInstance();
             cameraShowed = inflatedView.findViewById(R.id.cameraShowed);
-            cameraDisplayer = new CameraDisplayer(this , cam);
+            cameraDisplayer = new CameraDisplayer(get_instance() , cam);
             cameraShowed.addView(cameraDisplayer);
 
         }
@@ -151,17 +167,17 @@ public class AppActivity extends Cocos2dxActivity {
 
     }
 
-    private void stopRecord() {
+    private static void stopRecord() {
         mediaRecorder.stop();
         cameraShowed.removeView(cameraDisplayer);
     }
 
-    private boolean checkPermission() {
+    private static boolean checkPermission() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
         else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO.toString()}, 21);
+            ActivityCompat.requestPermissions(AppActivity.get_instance(), new String[]{Manifest.permission.RECORD_AUDIO.toString()}, 21);
             return false;
         }
     }
@@ -177,7 +193,7 @@ public class AppActivity extends Cocos2dxActivity {
         return c; // returns null if camera is unavailable
     }
 
-    private boolean checkCameraHardware(Context context) {
+    private static boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
             // this device has a camera
             return true;

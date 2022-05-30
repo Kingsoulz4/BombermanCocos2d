@@ -84,6 +84,23 @@ bool LayerWidget::init()
 
 	});
 
+
+	auto btnRecord = ui::Button::create("Controllers/rec-button.png");
+	btnRecord->setPosition(Point(visibleSize.width -  btnRecord->getContentSize().width, visibleSize.height - btnPause->getContentSize().height));
+	this->addChild(btnRecord);
+	//cocos2d::Jnizh
+	btnRecord->addClickEventListener([=](Ref*) {
+		#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		JniMethodInfo methodInfo;
+			if (cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "handleRecord", "()V")) {
+				methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+			
+			}
+		#endif
+
+
+		});
+
 	//Update
 	this->scheduleUpdate();
 	return true;
@@ -150,6 +167,9 @@ void LayerWidget::onTouchMoved(cocos2d::Touch * touch, cocos2d::Event * event)
 	}
 	
 	//playerUnderControl->move(cosA, sinA);
+
+
+
 	
 	
 }
